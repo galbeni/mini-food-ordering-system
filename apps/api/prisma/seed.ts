@@ -1,22 +1,6 @@
-import 'dotenv/config';
-import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from '../src/generated/prisma/client';
+import { PrismaClient } from '@prisma/client';
 
-function getDatabaseUrl(): string {
-  const databaseUrl = process.env.DATABASE_URL;
-
-  if (!databaseUrl) {
-    throw new Error('DATABASE_URL environment variable is not defined.');
-  }
-
-  return databaseUrl;
-}
-
-const adapter = new PrismaPg({
-  connectionString: getDatabaseUrl(),
-});
-
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient();
 
 async function main(): Promise<void> {
   await prisma.orderItem.deleteMany();
