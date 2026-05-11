@@ -181,13 +181,13 @@ docker compose up -d postgres
 Run Prisma migrations:
 
 ```bash
-pnpm --filter api prisma migrate dev
+pnpm --filter api exec prisma migrate dev
 ```
 
 Seed the database:
 
 ```bash
-pnpm --filter api prisma db seed
+pnpm --filter api exec prisma db seed
 ```
 
 The seed script creates several restaurants with menu items.
@@ -247,13 +247,13 @@ pnpm build
 ### Open Prisma Studio
 
 ```bash
-pnpm --filter api prisma studio
+pnpm --filter api exec prisma studio
 ```
 
 ### Reset the database
 
 ```bash
-pnpm --filter api prisma migrate reset
+pnpm --filter api exec prisma migrate reset
 ```
 
 ## API Documentation
