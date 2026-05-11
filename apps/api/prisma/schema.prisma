@@ -29,6 +29,7 @@ model User {
 model Restaurant {
   id          String     @id @default(uuid())
   name        String
+  slug        String     @unique
   description String
   imageUrl    String?
   menuItems   MenuItem[]

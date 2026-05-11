@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -18,6 +17,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { RestaurantDetailSkeleton } from "@/components/skeletons/restaurant-detail-skeleton";
+import { t } from "@/i18n";
 
 type Cart = Record<string, number>;
 
@@ -97,7 +98,7 @@ export default function RestaurantDetailPage() {
 
       router.push(`/orders/${order.id}`);
     } catch {
-      setError("Failed to place order. Please login and try again.");
+      setError(t.restaurantDetail.cart.error);
     }
   }
 
@@ -106,15 +107,13 @@ export default function RestaurantDetailPage() {
       <AppHeader />
       <main className="mx-auto max-w-6xl w-full px-4 py-8">
         <Button variant="ghost" asChild className="mb-6">
-          <Link href="/restaurants">← Back to restaurants</Link>
+          <Link href="/restaurants">{t.restaurantDetail.back}</Link>
         </Button>
-        {isLoading ? (
-          <p className="text-slate-600">Loading restaurant...</p>
-        ) : null}
+        {isLoading ? <RestaurantDetailSkeleton /> : null}
         {isError ? (
-          <p className="text-red-600">Failed to load restaurant.</p>
+          <p className="text-red-600">{t.restaurantDetail.error}</p>
         ) : null}
-        {restaurant ? (
+        {!isLoading && restaurant ? (
           <>
             <section className="mb-8 overflow-hidden rounded-2xl border bg-white">
               {restaurant.imageUrl ? (
@@ -124,7 +123,9 @@ export default function RestaurantDetailPage() {
                 />
               ) : null}
               <div className="p-6">
-                <p className="text-sm font-medium text-slate-500">Restaurant</p>
+                <p className="text-sm font-medium text-slate-500">
+                  {t.restaurantDetail.eyebrow}
+                </p>
                 <h1 className="mt-2 text-3xl font-bold tracking-tight">
                   {restaurant.name}
                 </h1>
@@ -135,7 +136,9 @@ export default function RestaurantDetailPage() {
             </section>
             <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
               <section>
-                <h2 className="mb-4 text-xl font-semibold">Menu</h2>
+                <h2 className="mb-4 text-xl font-semibold">
+                  {t.restaurantDetail.menu}
+                </h2>
                 <div className="grid gap-4">
                   {restaurant.menuItems.map((menuItem) => (
                     <Card key={menuItem.id}>
@@ -187,15 +190,15 @@ export default function RestaurantDetailPage() {
               <aside>
                 <Card className="sticky top-6">
                   <CardHeader>
-                    <CardTitle>Your cart</CardTitle>
+                    <CardTitle>{t.restaurantDetail.cart.title}</CardTitle>
                     <CardDescription>
-                      Local cart state is enough for this assignment.
+                      {t.restaurantDetail.cart.description}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {cartItems.length === 0 ? (
                       <p className="text-sm text-slate-600">
-                        Your cart is empty.
+                        {t.restaurantDetail.cart.empty}
                       </p>
                     ) : (
                       <div className="space-y-3">
@@ -216,7 +219,7 @@ export default function RestaurantDetailPage() {
                     )}
                     <div className="border-t pt-4">
                       <div className="flex justify-between font-semibold">
-                        <span>Total</span>
+                        <span>{t.restaurantDetail.cart.total}</span>
                         <span>{formatPrice(totalPrice)}</span>
                       </div>
                     </div>
@@ -228,10 +231,12 @@ export default function RestaurantDetailPage() {
                       disabled={cartItems.length === 0 || isCreatingOrder}
                       onClick={handlePlaceOrder}
                     >
-                      {isCreatingOrder ? "Placing order..." : "Place order"}
+                      {isCreatingOrder
+                        ? t.restaurantDetail.cart.placingOrder
+                        : t.restaurantDetail.cart.placeOrder}
                     </Button>
                     <p className="text-xs text-slate-500">
-                      You need to be logged in before placing an order.
+                      {t.restaurantDetail.cart.loginHint}
                     </p>
                   </CardContent>
                 </Card>
