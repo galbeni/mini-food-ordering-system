@@ -147,8 +147,8 @@ The goal of the project is to demonstrate a clean fullstack architecture with au
 Create `apps/api/.env`:
 
 ```env
-DATABASE_URL="postgresql://food_user:food_password@localhost:5432/mini_food?schema=public"
-JWT_SECRET="super-secret-dev-key-change-in-production"
+DATABASE_URL="postgresql://food_user:food_password2026@localhost:5432/mini_food?schema=public"
+JWT_SECRET="super-secret-dev-key"
 JWT_EXPIRES_IN="1d"
 PORT=3001
 FRONTEND_URL="http://localhost:3000"
