@@ -6,12 +6,16 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { OrderResponseDto } from './dto/order-response.dto';
 
 @Injectable()
 export class OrdersService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(userId: string, createOrderDto: CreateOrderDto) {
+  async create(
+    userId: string,
+    createOrderDto: CreateOrderDto,
+  ): Promise<OrderResponseDto> {
     const restaurant = await this.prisma.restaurant.findUnique({
       where: {
         id: createOrderDto.restaurantId,
@@ -87,7 +91,7 @@ export class OrdersService {
     return order;
   }
 
-  async findOne(userId: string, orderId: string) {
+  async findOne(userId: string, orderId: string): Promise<OrderResponseDto> {
     const order = await this.prisma.order.findUnique({
       where: {
         id: orderId,

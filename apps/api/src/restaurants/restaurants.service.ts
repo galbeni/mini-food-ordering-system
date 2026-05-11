@@ -8,7 +8,7 @@ export class RestaurantsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll(): Promise<RestaurantResponseDto[]> {
-    return this.prisma.restaurant.findMany({
+    return await this.prisma.restaurant.findMany({
       orderBy: {
         createdAt: 'asc',
       },

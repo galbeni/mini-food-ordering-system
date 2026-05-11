@@ -4,6 +4,7 @@ import { IsEmail, IsString, MinLength } from 'class-validator';
 export class RegisterDto {
   @ApiProperty({
     example: 'John Customer',
+    minLength: 2,
   })
   @IsString()
   @MinLength(2)
