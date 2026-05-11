@@ -1,10 +1,10 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 enum OrderStatus {
@@ -30,7 +30,7 @@ model Restaurant {
   id          String     @id @default(uuid())
   name        String
   description String
-  imageUrl     String?
+  imageUrl    String?
   menuItems   MenuItem[]
   orders      Order[]
   createdAt   DateTime   @default(now())
