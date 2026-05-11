@@ -1,12 +1,17 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiConflictResponse,
+  ApiCreatedResponse,
+  ApiOkResponse,
   ApiOperation,
-  ApiResponse,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
+import { AuthResponseDto } from './dto/auth-response.dto';
+import { CurrentUserResponseDto } from './dto/current-user-response.dto';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -18,31 +23,56 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  @ApiOperation({ summary: 'Register a new customer' })
-  @ApiResponse({
-    status: 201,
-    description: 'Customer registered successfully.',
+  @ApiOperation({
+    summary: 'Register a new customer',
+    description:
+      'Creates a new customer account, hashes the password and returns a JWT access token.',
   })
-  @ApiResponse({ status: 409, description: 'Email is already registered.' })
-  async register(@Body() registerDto: RegisterDto) {
-    return this.authService.register(registerDto);
+  @ApiCreatedResponse({
+    description: 'Customer registered successfully.',
+    type: AuthResponseDto,
+  })
+  @ApiConflictResponse({
+    description: 'User with this email already exists.',
+  })
+  async register(@Body() registerDto: RegisterDto): Promise<AuthResponseDto> {
+    return await this.authService.register(registerDto);
   }
 
   @Post('login')
-  @ApiOperation({ summary: 'Login with email and password' })
-  @ApiResponse({ status: 201, description: 'Login successful.' })
-  @ApiResponse({ status: 401, description: 'Invalid credentials.' })
-  async login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto);
+  @ApiOperation({
+    summary: 'Login with email and password',
+    description:
+      'Authenticates a customer and returns a JWT access token on success.',
+  })
+  @ApiCreatedResponse({
+    description: 'Login successful.',
+    type: AuthResponseDto,
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Invalid email or password.',
+  })
+  async login(@Body() loginDto: LoginDto): Promise<AuthResponseDto> {
+    return await this.authService.login(loginDto);
   }
 
   @Get('who-am-i')
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Return the currently authenticated user' })
-  @ApiResponse({ status: 200, description: 'Current user returned.' })
-  @ApiResponse({ status: 401, description: 'Unauthorized.' })
-  async whoAmI(@CurrentUser() user: AuthenticatedUser) {
-    return this.authService.getCurrentUser(user.id);
+  @ApiBearerAuth('access-token')
+  @ApiOperation({
+    summary: 'Return the currently authenticated user',
+    description: 'Returns the customer profile linked to the JWT access token.',
+  })
+  @ApiOkResponse({
+    description: 'Current user returned.',
+    type: CurrentUserResponseDto,
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Missing, invalid or expired access token.',
+  })
+  async whoAmI(
+    @CurrentUser() user: AuthenticatedUser,
+  ): Promise<CurrentUserResponseDto> {
+    return await this.authService.getCurrentUser(user.id);
   }
 }

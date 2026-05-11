@@ -112,7 +112,7 @@ export class AuthService {
   }
 
   private async signToken(userId: string, email: string): Promise<string> {
-    return this.jwtService.signAsync(
+    return await this.jwtService.signAsync(
       {
         email,
       },
