@@ -1,22 +1,22 @@
 "use client";
-
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ShoppingBag } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/features/auth/authSlice";
 import { Button } from "@/components/ui/button";
+import { t } from "@/i18n";
 import type { RootState } from "@/store/store";
 
-export function AppHeader() {
+export const AppHeader = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
 
-  function handleLogout() {
+  const handleLogout = () => {
     dispatch(logout());
     router.push("/login");
-  }
+  };
 
   return (
     <header className="border-b bg-white">
@@ -26,9 +26,8 @@ export function AppHeader() {
           className="flex items-center gap-2 font-semibold"
         >
           <ShoppingBag className="h-5 w-5" />
-          Mini Food
+          {t.app.name}
         </Link>
-
         <nav className="flex items-center gap-3">
           {user ? (
             <>
@@ -36,16 +35,16 @@ export function AppHeader() {
                 {user.name}
               </span>
               <Button variant="outline" size="sm" onClick={handleLogout}>
-                Logout
+                {t.nav.logout}
               </Button>
             </>
           ) : (
             <>
               <Button variant="ghost" size="sm" asChild>
-                <Link href="/login">Login</Link>
+                <Link href="/login">{t.nav.login}</Link>
               </Button>
               <Button size="sm" asChild>
-                <Link href="/register">Register</Link>
+                <Link href="/register">{t.nav.register}</Link>
               </Button>
             </>
           )}
@@ -53,4 +52,4 @@ export function AppHeader() {
       </div>
     </header>
   );
-}
+};
