@@ -1,0 +1,21 @@
+{
+  "name": "mini-food-ordering-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Fullstack Mini Food Ordering System built with NestJS, Next.js, Prisma and PostgreSQL.",
+  "scripts": {
+    "dev": "docker compose up -d && pnpm --parallel --filter api --filter web dev",
+    "dev:api": "pnpm --filter api start:dev",
+    "dev:web": "pnpm --filter web dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "db:reset": "pnpm --filter api prisma migrate reset",
+    "seed": "pnpm --filter api prisma db seed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}
