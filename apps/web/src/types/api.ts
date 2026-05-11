@@ -26,6 +26,7 @@ export type MenuItem = {
 export type Restaurant = {
   id: string;
   name: string;
+  slug: string;
   description: string;
   imageUrl: string | null;
   createdAt: string;
