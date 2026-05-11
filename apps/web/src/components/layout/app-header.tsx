@@ -1,0 +1,56 @@
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { ShoppingBag } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/features/auth/authSlice";
+import { Button } from "@/components/ui/button";
+import type { RootState } from "@/store/store";
+
+export function AppHeader() {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.auth.user);
+
+  function handleLogout() {
+    dispatch(logout());
+    router.push("/login");
+  }
+
+  return (
+    <header className="border-b bg-white">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+        <Link
+          href="/restaurants"
+          className="flex items-center gap-2 font-semibold"
+        >
+          <ShoppingBag className="h-5 w-5" />
+          Mini Food
+        </Link>
+
+        <nav className="flex items-center gap-3">
+          {user ? (
+            <>
+              <span className="hidden text-sm text-slate-600 sm:inline">
+                {user.name}
+              </span>
+              <Button variant="outline" size="sm" onClick={handleLogout}>
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="ghost" size="sm" asChild>
+                <Link href="/login">Login</Link>
+              </Button>
+              <Button size="sm" asChild>
+                <Link href="/register">Register</Link>
+              </Button>
+            </>
+          )}
+        </nav>
+      </div>
+    </header>
+  );
+}
