@@ -319,6 +319,8 @@ Some conscious trade-offs:
 - The frontend uses localStorage for JWT storage for simplicity in this assignment context.
 - The order detail route uses an order ID because orders are private customer resources and do not need SEO-friendly slugs.
 - The restaurant detail route uses slugs for more user-friendly URLs.
+- SEO was not deeply optimized beyond the basic Next.js setup. Since Next.js is strong in metadata handling and server-rendered experiences, a production version should include richer page-level metadata, Open Graph tags, structured data and better social sharing previews.
+- The application uses the default/basic favicon setup. A production-ready version should include a proper branded favicon set and app icons.
 - The bonus real-time order status update feature was not implemented due to the time-boxed scope.
 
 ## Further Improvements
@@ -335,6 +337,8 @@ Given more time, I would add:
 - Better form validation with React Hook Form and Zod
 - Production Docker setup for the full monorepo
 - Deployment to Render/Railway/Fly.io for the API and Vercel for the frontend
+- Improve SEO with page-specific metadata, Open Graph images, structured data and better server-rendered content where needed
+- Add a branded favicon, app icons and social preview assets
 
 ## Assignment Scope Checklist
 
