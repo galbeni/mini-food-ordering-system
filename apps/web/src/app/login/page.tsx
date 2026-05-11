@@ -22,8 +22,8 @@ export default function LoginPage() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
-  const [email, setEmail] = useState("john@example.com");
-  const [password, setPassword] = useState("password123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -57,6 +57,7 @@ export default function LoginPage() {
                   id="email"
                   type="email"
                   value={email}
+                  placeholder={t.auth.login.emailPlaceholder}
                   onChange={(event) => setEmail(event.target.value)}
                   required
                 />
@@ -67,6 +68,7 @@ export default function LoginPage() {
                   id="password"
                   type="password"
                   value={password}
+                  placeholder={t.auth.login.passwordPlaceholder}
                   onChange={(event) => setPassword(event.target.value)}
                   required
                 />
