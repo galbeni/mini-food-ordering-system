@@ -58,8 +58,10 @@ export const apiSlice = createApi({
     }),
 
     getRestaurant: builder.query<RestaurantDetail, string>({
-      query: (id) => `/restaurants/${id}`,
-      providesTags: (_result, _error, id) => [{ type: "Restaurants", id }],
+      query: (slug) => `/restaurants/${slug}`,
+      providesTags: (_result, _error, slug) => [
+        { type: "Restaurants", id: slug },
+      ],
     }),
 
     createOrder: builder.mutation<Order, CreateOrderRequest>({
@@ -69,6 +71,11 @@ export const apiSlice = createApi({
         body,
       }),
       invalidatesTags: ["Orders"],
+    }),
+
+    getOrders: builder.query<Order[], void>({
+      query: () => "/orders",
+      providesTags: ["Orders"],
     }),
 
     getOrder: builder.query<Order, string>({
@@ -85,5 +92,6 @@ export const {
   useGetRestaurantsQuery,
   useGetRestaurantQuery,
   useCreateOrderMutation,
+  useGetOrdersQuery,
   useGetOrderQuery,
 } = apiSlice;

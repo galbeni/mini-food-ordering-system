@@ -28,15 +28,15 @@ export class RestaurantsController {
     return await this.restaurantsService.findAll();
   }
 
-  @Get(':id')
+  @Get(':slug')
   @ApiOperation({
     summary: 'Return restaurant details including menu items',
     description:
-      'Returns a single restaurant by id together with its available menu items.',
+      'Returns a single restaurant by slug together with its available menu items.',
   })
   @ApiParam({
-    name: 'id',
-    example: 'f5e60d88-458a-4b99-b60d-cf5e1e7c9b7a',
+    name: 'slug',
+    example: 'pasta-palace',
   })
   @ApiOkResponse({
     description: 'Restaurant returned.',
@@ -45,7 +45,9 @@ export class RestaurantsController {
   @ApiNotFoundResponse({
     description: 'Restaurant not found.',
   })
-  async findOne(@Param('id') id: string): Promise<RestaurantDetailResponseDto> {
-    return await this.restaurantsService.findOne(id);
+  async findOne(
+    @Param('slug') slug: string,
+  ): Promise<RestaurantDetailResponseDto> {
+    return await this.restaurantsService.findOneBySlug(slug);
   }
 }

@@ -13,6 +13,11 @@ export class RestaurantDetailResponseDto {
   name!: string;
 
   @ApiProperty({
+    example: 'pasta-palace',
+  })
+  slug!: string;
+
+  @ApiProperty({
     example: 'Fresh Italian pasta, pizza and comfort food.',
   })
   description!: string;

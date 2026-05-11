@@ -51,6 +51,25 @@ export class OrdersController {
     return await this.ordersService.create(user.id, createOrderDto);
   }
 
+  @Get()
+  @ApiOperation({
+    summary: 'List orders for the logged-in customer',
+    description:
+      'Returns all orders that belong to the authenticated customer, ordered by creation date descending.',
+  })
+  @ApiOkResponse({
+    description: 'Customer orders returned.',
+    type: [OrderResponseDto],
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Missing, invalid or expired access token.',
+  })
+  async findAll(
+    @CurrentUser() user: AuthenticatedUser,
+  ): Promise<OrderResponseDto[]> {
+    return await this.ordersService.findAllForUser(user.id);
+  }
+
   @Get(':id')
   @ApiOperation({
     summary: 'Return details of a specific customer order',

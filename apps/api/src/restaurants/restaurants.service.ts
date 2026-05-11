@@ -15,6 +15,7 @@ export class RestaurantsService {
       select: {
         id: true,
         name: true,
+        slug: true,
         description: true,
         imageUrl: true,
         createdAt: true,
@@ -22,10 +23,10 @@ export class RestaurantsService {
     });
   }
 
-  async findOne(id: string): Promise<RestaurantDetailResponseDto> {
+  async findOneBySlug(slug: string): Promise<RestaurantDetailResponseDto> {
     const restaurant = await this.prisma.restaurant.findUnique({
       where: {
-        id,
+        slug,
       },
       include: {
         menuItems: {
