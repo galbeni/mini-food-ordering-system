@@ -20,7 +20,7 @@ export const AppHeader = () => {
 
   return (
     <header className="border-b bg-white">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+      <div className="mx-auto flex max-w-6xl w-full items-center justify-between px-4 py-4">
         <Link
           href="/restaurants"
           className="flex items-center gap-2 font-semibold"
@@ -31,6 +31,9 @@ export const AppHeader = () => {
         <nav className="flex items-center gap-3">
           {user ? (
             <>
+              <Button variant="ghost" size="sm" asChild>
+                <Link href="/orders">{t.nav.orders}</Link>
+              </Button>
               <span className="hidden text-sm text-slate-600 sm:inline">
                 {user.name}
               </span>

@@ -19,9 +19,9 @@ import { t } from "@/i18n";
 export default function RegisterPage() {
   const router = useRouter();
   const [register, { isLoading }] = useRegisterMutation();
-  const [name, setName] = useState("John Customer");
-  const [email, setEmail] = useState("john@example.com");
-  const [password, setPassword] = useState("password123");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -52,6 +52,7 @@ export default function RegisterPage() {
                 <Input
                   id="name"
                   value={name}
+                  placeholder={t.auth.register.namePlaceholder}
                   onChange={(event) => setName(event.target.value)}
                   required
                 />
@@ -62,6 +63,7 @@ export default function RegisterPage() {
                   id="email"
                   type="email"
                   value={email}
+                  placeholder={t.auth.register.emailPlaceholder}
                   onChange={(event) => setEmail(event.target.value)}
                   required
                 />
@@ -72,12 +74,17 @@ export default function RegisterPage() {
                   id="password"
                   type="password"
                   value={password}
+                  placeholder={t.auth.register.passwordPlaceholder}
                   onChange={(event) => setPassword(event.target.value)}
                   required
                 />
               </div>
               {error ? <p className="text-sm text-red-600">{error}</p> : null}
-              <Button className="w-full" type="submit" disabled={isLoading}>
+              <Button
+                className="w-full cursor-pointer"
+                type="submit"
+                disabled={isLoading}
+              >
                 {isLoading
                   ? t.auth.register.submitting
                   : t.auth.register.submit}

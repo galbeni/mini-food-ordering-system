@@ -49,7 +49,7 @@ export default function RestaurantsPage() {
                 </CardHeader>
                 <CardContent>
                   <Button asChild className="w-full">
-                    <Link href={`/restaurants/${restaurant.id}`}>
+                    <Link href={`/restaurants/${restaurant.slug}`}>
                       {t.restaurants.viewMenu}
                     </Link>
                   </Button>

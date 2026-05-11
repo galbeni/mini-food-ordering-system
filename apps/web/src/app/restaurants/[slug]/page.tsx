@@ -18,20 +18,22 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { RestaurantDetailSkeleton } from "@/components/skeletons/restaurant-detail-skeleton";
+import { skipToken } from "@reduxjs/toolkit/query";
 import { t } from "@/i18n";
 
 type Cart = Record<string, number>;
 
 export default function RestaurantDetailPage() {
-  const params = useParams<{ id: string }>();
+  const params = useParams<{ slug: string }>();
   const router = useRouter();
-  const restaurantId = params.id;
+  const restaurantSlug = params.slug;
 
   const {
     data: restaurant,
     isLoading,
     isError,
-  } = useGetRestaurantQuery(restaurantId);
+  } = useGetRestaurantQuery(restaurantSlug ?? skipToken);
+
   const [createOrder, { isLoading: isCreatingOrder }] =
     useCreateOrderMutation();
 
@@ -56,14 +58,14 @@ export default function RestaurantDetailPage() {
     0,
   );
 
-  function increase(menuItemId: string) {
+  const increase = (menuItemId: string) => {
     setCart((currentCart) => ({
       ...currentCart,
       [menuItemId]: (currentCart[menuItemId] ?? 0) + 1,
     }));
-  }
+  };
 
-  function decrease(menuItemId: string) {
+  const decrease = (menuItemId: string) => {
     setCart((currentCart) => {
       const nextQuantity = (currentCart[menuItemId] ?? 0) - 1;
 
@@ -78,9 +80,9 @@ export default function RestaurantDetailPage() {
         [menuItemId]: nextQuantity,
       };
     });
-  }
+  };
 
-  async function handlePlaceOrder() {
+  const handlePlaceOrder = async () => {
     setError(null);
 
     if (!restaurant || cartItems.length === 0) {
@@ -100,7 +102,7 @@ export default function RestaurantDetailPage() {
     } catch {
       setError(t.restaurantDetail.cart.error);
     }
-  }
+  };
 
   return (
     <>
